@@ -20,6 +20,10 @@ struct Node {
   Node (int v, int p): value(v), priority(p) {};
 };
 
+bool isLeaf (Node*& node) {
+  return !node->left && !node->right;
+}
+
 Node* findPlaceInBST (Node*& root, Node*& newNode, Node*& parent) {
   if (!root) {
     return newNode;
@@ -135,6 +139,55 @@ void insertNode (Node*& root, int value) {
   goUpwards(root, newNode);
 }
 
+Node* findNode (Node*& root, int value) {
+  if (!root) {
+    return NULL;
+  }
+  
+  if (root->value == value) {
+    return root;
+  }
+
+  return (Node*)(findNode(root->left, value) || findNode(root->right, value));
+}
+
+void goDownwards (Node*& root, Node*& node) {
+  while (!isLeaf(node)) {
+    if (!node->left) {
+      rotateLeft(root, node);
+    } else if (!node->right) {
+      rotateRight(root, node);
+    } else if (node->left->priority < node->right->priority) {
+      rotateRight(root, node);
+    } else {
+      rotateLeft(root, node);
+    }
+  }
+}
+
+void safelyDetachNode (Node*& node) {
+  if (node->parent->left == node) {
+    node->parent->left = NULL;
+  } else {
+    node->parent->right = NULL;
+  }
+
+  node->parent = NULL;
+
+  delete node;
+}
+
+void deleteNode (Node*& root, int value) {
+  Node* nodeToDelete = findNode(root, value);
+
+  if (!nodeToDelete) {
+    return;
+  }
+
+  goDownwards(root, nodeToDelete);
+  safelyDetachNode(nodeToDelete);
+}
+
 int main () {
   srand(time(NULL));
 
@@ -158,6 +211,7 @@ int main () {
       
       case 2: {
         // Delete X
+        deleteNode(root, X);
 
         break;
       }
