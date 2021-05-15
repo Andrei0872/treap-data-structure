@@ -188,6 +188,12 @@ void deleteNode (Node*& root, int value) {
   safelyDetachNode(nodeToDelete);
 }
 
+void checkIfValueExists (Node*& root, int value) {
+  Node* foundNode = findNode(root, value);
+
+  g << (foundNode ? 1 : 0) << '\n';
+}
+
 int main () {
   srand(time(NULL));
 
@@ -218,6 +224,7 @@ int main () {
 
       case 3: {
         // Search for X
+        checkIfValueExists(root, X);
 
         break;
       }
