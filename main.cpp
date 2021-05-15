@@ -69,6 +69,35 @@ void rotateLeft (Node*& root, Node*& node) {
   }
 }
 
+void rotateRight (Node*& root, Node*& node) {
+  Node* nodeParent = node->parent;
+  Node* leftChild = node->left;
+  Node* initialNode = node;
+
+  if (nodeParent) {
+    if (nodeParent->right == node) {
+      node->parent->right = leftChild;
+    }
+
+    node->parent->left = leftChild;
+  }
+
+  node->left = leftChild->right;
+  if (node->left) {
+    node->left->parent = node;
+  }
+
+  leftChild->right = node;
+  node->parent = leftChild;
+
+  leftChild->parent = nodeParent;
+
+  if (initialNode == root) {
+    root = leftChild;
+    root->parent = NULL;
+  }
+}
+
 
 void insertNode (Node*& root, int value) {
   Node *newNode = new Node(value, rand() % NUMBER_LIMIT);
