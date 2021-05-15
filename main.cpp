@@ -98,6 +98,22 @@ void rotateRight (Node*& root, Node*& node) {
   }
 }
 
+void goUpwards (Node*& root, Node*& node) {
+  while (node && node->parent && node->parent->priority > node->priority) {
+    bool isLeftChild = node->parent->left == node;
+    if (isLeftChild) {
+      rotateRight(root, node->parent);
+    } else {
+      rotateLeft(root, node->parent);
+    }
+
+    node = node->parent;
+  }
+
+  if (node && node->parent == NULL) {
+    root = node;
+  }
+}
 
 void insertNode (Node*& root, int value) {
   Node *newNode = new Node(value, rand() % NUMBER_LIMIT);
@@ -116,6 +132,7 @@ void insertNode (Node*& root, int value) {
     return;
   }
 
+  goUpwards(root, newNode);
 }
 
 int main () {
