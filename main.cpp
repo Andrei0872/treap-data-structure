@@ -40,6 +40,34 @@ Node* findPlaceInBST (Node*& root, Node*& newNode, Node*& parent) {
   return root;
 }
 
+void rotateLeft (Node*& root, Node*& node) {
+  Node* nodeParent = node->parent;
+  Node* rightChild = node->right;
+  Node* initialNode = node;
+
+  if (nodeParent) {
+    if (nodeParent->right == node) {
+      node->parent->right = rightChild;
+    } else {
+      node->parent->left = rightChild;
+    }
+  }
+
+  node->right = rightChild->left;
+  if (node->right) {
+    node->right->parent = node;
+  }
+
+  rightChild->left = node;
+  node->parent = rightChild;
+
+  rightChild->parent = nodeParent;
+
+  if (initialNode == root) {
+    root = rightChild;
+    root->parent = NULL;
+  }
+}
 
 
 void insertNode (Node*& root, int value) {
