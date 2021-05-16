@@ -1,0 +1,17 @@
+{
+  "files.associations": {
+    "*.Makefile": "makefile",
+    "Dockerfile.*": "dockerfile",
+    "iostream": "cpp",
+    "istream": "cpp",
+    "iosfwd": "cpp",
+    "*.tcc": "cpp",
+    "string": "cpp",
+    "iterator": "cpp",
+    "fstream": "cpp",
+    "ostream": "cpp",
+    "sstream": "cpp",
+    "streambuf": "cpp",
+    "string_view": "cpp"
+  }
+}
