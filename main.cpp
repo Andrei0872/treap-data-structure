@@ -148,7 +148,8 @@ Node* findNode (Node*& root, int value) {
     return root;
   }
 
-  return (Node*)(findNode(root->left, value) || findNode(root->right, value));
+  Node* leftResult = findNode(root->left, value);
+  return leftResult != NULL ? leftResult : findNode(root->right, value);
 }
 
 void goDownwards (Node*& root, Node*& node) {
