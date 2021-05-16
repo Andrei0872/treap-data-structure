@@ -213,6 +213,22 @@ Node* getPredecessorOf (Node*& root, int value, Node* crtPredecessor = NULL) {
   );
 }
 
+Node* getSuccessorOf (Node*& root, int value, Node* crtSuccessor = NULL) {
+  if (!root) {
+    return crtSuccessor;
+  }
+
+  int diff = value - root->value;
+  if (diff <= 0) {
+    crtSuccessor = root;
+  }
+
+  return getSuccessorOf(
+    value > root->value ? root->right : root->left,
+    value,
+    crtSuccessor
+  );
+}
 
 int main () {
   srand(time(NULL));
@@ -259,6 +275,8 @@ int main () {
 
       case 5: {
         // Successor of X
+        Node* successor = getSuccessorOf(root, X);
+        g << successor->value << '\n';
 
         break;
       }
