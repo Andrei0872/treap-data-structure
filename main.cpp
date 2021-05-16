@@ -195,6 +195,25 @@ void checkIfValueExists (Node*& root, int value) {
   g << (foundNode ? 1 : 0) << '\n';
 }
 
+
+Node* getPredecessorOf (Node*& root, int value, Node* crtPredecessor = NULL) {
+  if (!root) {
+    return crtPredecessor;
+  }
+  
+  int diff = value - root->value;
+  if (diff >= 0) {
+    crtPredecessor = root;
+  }
+
+  return getPredecessorOf(
+    value > root->value ? root->right : root->left,
+    value,
+    crtPredecessor
+  );
+}
+
+
 int main () {
   srand(time(NULL));
 
@@ -232,6 +251,8 @@ int main () {
 
       case 4: {
         // Predecessor of X
+        Node* pred = getPredecessorOf(root, X);
+        g << pred->value << '\n';
         
         break;
       }
