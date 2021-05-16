@@ -3,6 +3,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <time.h>
+#include <functional>
 
 using namespace std;
 
@@ -81,9 +82,9 @@ void rotateRight (Node*& root, Node*& node) {
   if (nodeParent) {
     if (nodeParent->right == node) {
       node->parent->right = leftChild;
+    } else {
+      node->parent->left = leftChild;
     }
-
-    node->parent->left = leftChild;
   }
 
   node->left = leftChild->right;
@@ -111,6 +112,7 @@ void goUpwards (Node*& root, Node*& node) {
       rotateLeft(root, node->parent);
     }
 
+    // TODO: more on this
     node = node->parent;
   }
 
@@ -159,6 +161,7 @@ void goDownwards (Node*& root, Node*& node) {
     } else if (!node->right) {
       rotateRight(root, node);
     } else if (node->left->priority < node->right->priority) {
+      // TODO: add why
       rotateRight(root, node);
     } else {
       rotateLeft(root, node);
@@ -230,6 +233,26 @@ Node* getSuccessorOf (Node*& root, int value, Node* crtSuccessor = NULL) {
   );
 }
 
+void printValuesBetween (Node*& root, int start, int end) {
+  function<void(Node*&)> traverse = [&](Node*& root) {
+    if (!root) {
+      return;
+    }
+
+    traverse(root->left);
+
+    if (root->value >= start && root->value <= end) {
+      g << root->value << ' ';
+    }
+
+    traverse(root->right);
+  };
+
+  traverse(root);
+
+  g << '\n';
+}
+
 int main () {
   srand(time(NULL));
 
@@ -283,8 +306,9 @@ int main () {
 
       case 6: {
         // Print values between X and Y
-
         f >> Y;
+        
+        printValuesBetween(root, X, Y);
         break;
       }
     }
