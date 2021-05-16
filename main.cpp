@@ -112,7 +112,6 @@ void goUpwards (Node*& root, Node*& node) {
       rotateLeft(root, node->parent);
     }
 
-    // TODO: more on this
     node = node->parent;
   }
 
@@ -161,7 +160,6 @@ void goDownwards (Node*& root, Node*& node) {
     } else if (!node->right) {
       rotateRight(root, node);
     } else if (node->left->priority < node->right->priority) {
-      // TODO: add why
       rotateRight(root, node);
     } else {
       rotateLeft(root, node);
@@ -210,7 +208,7 @@ Node* getPredecessorOf (Node*& root, int value, Node* crtPredecessor = NULL) {
   }
 
   return getPredecessorOf(
-    value > root->value ? root->right : root->left,
+    value >= root->value ? root->right : root->left,
     value,
     crtPredecessor
   );
@@ -313,6 +311,9 @@ int main () {
       }
     }
   }
+
+  f.close();
+  g.close();
 
   return 0;
 }
